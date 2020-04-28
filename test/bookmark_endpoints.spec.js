@@ -24,7 +24,7 @@ describe('bookmarks endpoints', ()=>{
     before('make connection', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL,
+            connection: process.env.TEST_DATABASE_URL,
         })
         app.set('db', db)
     })
@@ -142,11 +142,11 @@ describe('bookmarks endpoints', ()=>{
             .set({Authorization: `Bearer ${apiToken}`})
             .send(updatedBookmark)
             .expect(204)
-            // .then(res=>{
-            //     supertest(app)
-            //     .get(`/bookmarks/${bookmarkId}`)
-            //     .expect(updatedBookmark)
-            // })
+            .then(res=>{
+                supertest(app)
+                .get(`/bookmarks/${bookmarkId}`)
+                .expect(updatedBookmark)
+            })
         })
     })
 })
